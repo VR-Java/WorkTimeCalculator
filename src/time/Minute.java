@@ -3,25 +3,21 @@ package time;
 import java.time.LocalTime;
 
 public class Minute {
+
 	private LocalTime minute;
-	private double koef;
+	private double coefficient;
 
 	public Minute(LocalTime t) {
 		this.minute = t;
-		this.koef = 0;
+		this.coefficient = 0;
 	}
 
-	@Override
-	public String toString() {
-		return minute + " k=" + koef;
+	public void setCoefficient(double coefficient) {
+		this.coefficient = coefficient;
 	}
 
-	public void setKoef(double koef) {
-		this.koef = koef;
-	}
-
-	public double getKoef() {
-		return this.koef;
+	public double getCoefficient() {
+		return this.coefficient;
 	}
 
 	public LocalTime getMinute() {
@@ -51,5 +47,10 @@ public class Minute {
 		} else if (!minute.equals(other.minute))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return minute + " k=" + coefficient;
 	}
 }

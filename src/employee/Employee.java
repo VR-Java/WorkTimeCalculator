@@ -2,14 +2,14 @@ package employee;
 
 import java.util.List;
 
-import time.Month;
+import time.MyMonth;
 
 public class Employee {
 	
 	private String name;
 	private int rate;
 	
-	private List<Month> monthes;
+	private List<MyMonth> monthes;
 
 
 }
