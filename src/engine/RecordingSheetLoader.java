@@ -2,38 +2,40 @@ package engine;
 
 import java.io.IOException;
 import java.time.LocalTime;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
+import time.MyMonth;
 import time.WorkDay;
 
 public class RecordingSheetLoader {
 
-	private static ExcellConnector recordingSheet = new ExcellConnector("RecordingSheet1.xls");
-
-	public static LocalTime readStartDay(WorkDay wd) throws IOException {
-		return recordingSheet.readTimeCell(3, wd.getDay());
+	// read hours when Employee arrived to workplace
+	public static LocalTime readStartDay(ExcellConnector ec, WorkDay wd) throws IOException {
+		return ec.readTimeCell(3, wd.getDay());
 	}
 
-	public static LocalTime readFinishDay(WorkDay wd) throws IOException {
-		return recordingSheet.readTimeCell(4, wd.getDay());
+	// read hours when Employee finished his workday
+	public static LocalTime readFinishDay(ExcellConnector ec, WorkDay wd) throws IOException {
+		return ec.readTimeCell(4, wd.getDay());
 	}
 
-	public static void writeShiftsTime(WorkDay wd) {
+	// writes total quantity of minutes of each shift per day
+	public static void writeShiftsTime(ExcellConnector ec, WorkDay wd) {
 		int day = wd.getDay();
 		int month = wd.getMonth() - 1;
 		List<Integer> list = wd.getListOfShifts();
 
 		for (int i = 0; i < 4; i++) {
-			recordingSheet.writeCell(6 + i, day, month, list.get(i));
+			ec.writeCell(6 + i, day, month, list.get(i));
 		}
 	}
 
-	// private static DecimalFormat df = new DecimalFormat("0.0000");
-
-	public static void writeResultHours(List<Double> list1, List<Double> list2, List<Double> list3, Month month) {
-		int m = month.getValue() - 1;
+	// writes total summ of hours per first half, second half and total sum of hours
+	// per month
+	public static void writeResultHours(ExcellConnector ec, List<Double> list1, List<Double> list2, List<Double> list3,
+			MyMonth month)throws IOException {
+		int m = month.getMonthOfYear() - 1;
 		List<List<Double>> lists = new ArrayList<>();
 		lists.add(list1);
 		lists.add(list2);
@@ -41,7 +43,7 @@ public class RecordingSheetLoader {
 
 		for (int i = 0; i < lists.size(); i++) {
 			for (int j = 0; j < 4; j++) {
-				recordingSheet.writeCell(12 + j, i + 1, m, lists.get(i).get(j));
+				ec.writeCell(12 + j, i + 1, m, lists.get(i).get(j));
 			}
 		}
 

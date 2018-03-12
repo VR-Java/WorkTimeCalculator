@@ -2,12 +2,12 @@ package time;
 
 import java.time.LocalTime;
 
-public class Minute {
+public class MyMinute {
 
 	private LocalTime minute;
 	private double coefficient;
 
-	public Minute(LocalTime t) {
+	public MyMinute(LocalTime t) {
 		this.minute = t;
 		this.coefficient = 0;
 	}
@@ -40,7 +40,7 @@ public class Minute {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Minute other = (Minute) obj;
+		MyMinute other = (MyMinute) obj;
 		if (minute == null) {
 			if (other.minute != null)
 				return false;

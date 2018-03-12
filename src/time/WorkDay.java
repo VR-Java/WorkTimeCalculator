@@ -21,7 +21,7 @@ public class WorkDay {
 
 //	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
-	private List<Minute> workDayList = new ArrayList<>();
+	private List<MyMinute> workDayList = new ArrayList<>();
 
 	public WorkDay(boolean holiday) {
 		this.holiday = holiday;
@@ -36,10 +36,10 @@ public class WorkDay {
 		List<Integer> shifts = new ArrayList<>();
 		calculateShifts();
 
-		shifts.add(timeShift1 > 1 ? timeShift1 : 0);
-		shifts.add(timeShift2 > 1 ? timeShift2 : 0);
-		shifts.add(timeShift3 > 1 ? timeShift3 : 0);
-		shifts.add(timeHoliday > 1 ? timeHoliday : 0);
+		shifts.add(timeShift1);
+		shifts.add(timeShift2);
+		shifts.add(timeShift3);
+		shifts.add(timeHoliday);
 
 		return shifts;
 	}
@@ -49,7 +49,7 @@ public class WorkDay {
 		upgradeCoefficients();
 		checkIfHoliday();
 
-		for (Minute minute : workDayList) {
+		for (MyMinute minute : workDayList) {
 			if (minute.getCoefficient() == 1) {
 				timeShift1++;
 			} else if (minute.getCoefficient() == 1.25) {
@@ -60,20 +60,29 @@ public class WorkDay {
 				timeHoliday++;
 			}
 		}
+		correctShifts();
+	}
+	
+	// correct Shifts. If timeShift < 2 -> timeShift = 0
+	private void correctShifts() {
+		timeShift1 = timeShift1 > 2 ? timeShift1 : 0;
+		timeShift2 = timeShift2 > 2 ? timeShift2 : 0;
+		timeShift3 = timeShift3 > 2 ? timeShift3 : 0;
+		timeHoliday = timeHoliday > 2 ? timeHoliday : 0;
 	}
 
 	// upgrade all coefficients in workDaylist
 	// according to standard list -> Clock.getList()
-	private List<Minute> upgradeCoefficients() {
-		workDayList = Clock.getList();
-		workDayList.retainAll(Clock.createList(startDay, finishDay));
+	private List<MyMinute> upgradeCoefficients() {
+		workDayList = MyClock.getList();
+		workDayList.retainAll(MyClock.createList(startDay, finishDay));
 		return workDayList;
 	}
 
 	// if Holiday -> set all coefficients to 2
 	private void checkIfHoliday() {
 		if (isHoliday()) {
-			for (Minute minute : workDayList) {
+			for (MyMinute minute : workDayList) {
 				minute.setCoefficient(2);
 			}
 		}
@@ -129,19 +138,19 @@ public class WorkDay {
 
 	public int getTimeShift1() {
 
-		return timeShift1 > 2 ? timeShift1 : 0;
+		return timeShift1;
 	}
 
 	public int getTimeShift2() {
-		return timeShift2 > 2 ? timeShift2 : 0;
+		return timeShift2;
 	}
 
 	public int getTimeShift3() {
-		return timeShift3 > 2 ? timeShift3 : 0;
+		return timeShift3;
 	}
 
 	public int getTimeHoliday() {
-		return timeHoliday > 2 ? timeHoliday : 0;
+		return timeHoliday;
 	}
 
 	@Override

@@ -1,12 +1,16 @@
 package engine;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import time.WorkDay;
 
 public class CalendarLoader {
+	
+	private static Path path = Paths.get("D:\\Java\\Projects\\WorkTime\\Recording Sheets\\2018");
 
-	private static ExcellConnector shedule = new ExcellConnector("Calendar.xls");
+	private static ExcellConnector shedule = new ExcellConnector(path + "\\" + "Calendar.xls");
 
 	// reads array of Days in some moth from Calendar.xls file
 	// if 1 - working day
@@ -36,7 +40,7 @@ public class CalendarLoader {
 				String text;
 				text = shedule.readStringCellValue(i, 0);
 				if (monthName.equalsIgnoreCase(text)) {
-					System.out.println(text);
+					//System.out.println(text);
 					return i;
 				}
 			}

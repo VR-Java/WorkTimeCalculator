@@ -37,10 +37,10 @@ public class ExcellConnector {
 
 			try (FileOutputStream stream = new FileOutputStream(fileName)) {
 				wb.write(stream);
-				System.out.println("OK");
+				//System.out.println("OK");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 
@@ -54,10 +54,12 @@ public class ExcellConnector {
 
 			try (FileOutputStream stream = new FileOutputStream(fileName)) {
 				wb.write(stream);
-				System.out.println("OK");
+//				System.out.println("OK");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("ERR");
+
 		}
 	}
 
